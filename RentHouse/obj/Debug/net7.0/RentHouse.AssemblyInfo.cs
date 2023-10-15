@@ -10,7 +10,6 @@
 using System;
 using System.Reflection;
 
-[assembly: Microsoft.AspNetCore.Identity.UI.UIFrameworkAttribute("Bootstrap5")]
 [assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("aspnet-RentHouse-0a759b90-25b1-4ef8-8acd-10e7f665319f")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("RentHouse")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]

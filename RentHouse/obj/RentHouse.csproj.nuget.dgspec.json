@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\rench\\Desktop\\studia_Mateusz\\Projekt zespolowy\\RentHouse\\RentHouse\\RentHouse.csproj": {}
+    "C:\\Users\\student\\Documents\\134112\\renthouse_restapi\\RentHouse\\RentHouse.csproj": {}
   },
   "projects": {
-    "C:\\Users\\rench\\Desktop\\studia_Mateusz\\Projekt zespolowy\\RentHouse\\RentHouse\\RentHouse.csproj": {
+    "C:\\Users\\student\\Documents\\134112\\renthouse_restapi\\RentHouse\\RentHouse.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\rench\\Desktop\\studia_Mateusz\\Projekt zespolowy\\RentHouse\\RentHouse\\RentHouse.csproj",
+        "projectUniqueName": "C:\\Users\\student\\Documents\\134112\\renthouse_restapi\\RentHouse\\RentHouse.csproj",
         "projectName": "RentHouse",
-        "projectPath": "C:\\Users\\rench\\Desktop\\studia_Mateusz\\Projekt zespolowy\\RentHouse\\RentHouse\\RentHouse.csproj",
-        "packagesPath": "C:\\Users\\rench\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\rench\\Desktop\\studia_Mateusz\\Projekt zespolowy\\RentHouse\\RentHouse\\obj\\",
+        "projectPath": "C:\\Users\\student\\Documents\\134112\\renthouse_restapi\\RentHouse\\RentHouse.csproj",
+        "packagesPath": "C:\\Users\\student\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\student\\Documents\\134112\\renthouse_restapi\\RentHouse\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\rench\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\student\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -26,7 +26,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {}
+          "C:\\Program Files\\dotnet\\library-packs": {}
         },
         "frameworks": {
           "net7.0": {
