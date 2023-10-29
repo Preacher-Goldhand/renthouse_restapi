@@ -1,37 +1,29 @@
-using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using RentHouse.Models;
-using RentHouse.Data;
-using System.Linq;
-
-namespace RentHouse.Controllers;
 
 public class MachineController : Controller
 {
-    private readonly ILogger<MachineController> _logger;
-    private readonly ApplicationDbContext _db;
+    private readonly IMachineService _machineService;
 
-    public MachineController(ILogger<MachineController> logger, ApplicationDbContext db)
+    public MachineController(IMachineService machineService)
     {
-        _logger = logger;
-        _db = db;
+        _machineService = machineService;
     }
 
-    public IActionResult Details(int? Id)
+    [HttpGet]
+    public IActionResult GetMachines()
     {
-        if(!Id.HasValue){
-            return Json(_db.Machines.ToList());
-        }else{
-            //string query = "SELECT * FROM Machines WHERE ID = @p0"
-            MachineModel machine = -_db.Machines.FirstOrDeafult(machine => machine.Id == Id);
-            return Json(machine);
+        var htmlContent = System.IO.File.ReadAllText("./Views/Machine/Machine.html");
+        return Content(htmlContent, "text/html");
+    }
+
+    [HttpGet("{machineId}")]
+    public IActionResult GetMachineDetails(int machineId)
+    {
+        MachineModel machine = _machineService.GetMachineById(machineId);
+        if (machine == null)
+        {
+            return NotFound();
         }
-    }
-
-
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
-    {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        return Ok(machine);
     }
 }

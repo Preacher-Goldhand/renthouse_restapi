@@ -12,6 +12,7 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddScoped<IMachineService, MachineService>();
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
@@ -38,6 +39,16 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.MapControllerRoute(
+    name: "machines",
+    pattern: "{controller=Machine}/{action=GetMachines}");
+
+app.MapControllerRoute(
+    name: "machineDetails",
+    pattern: "{controller=Machine}/{action=GetMachineDetails}/{id}");
+
+
 app.MapRazorPages();
 
 app.Run();
