@@ -16,7 +16,7 @@ public class MachineController : Controller
         return Content(htmlContent, "text/html");
     }
 
-    [HttpGet("{machineId}")]
+    [HttpGet]
     public IActionResult GetMachineDetails(int machineId)
     {
         MachineModel machine = _machineService.GetMachineById(machineId);

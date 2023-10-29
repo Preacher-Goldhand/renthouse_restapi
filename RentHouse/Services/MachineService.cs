@@ -21,8 +21,8 @@ public class MachineService : IMachineService
     //     return _dbContext.Machines.ToList();
     // }
 
-    public MachineModel GetMachineById(int machineId)
+    public MachineModel GetMachineById(int id)
     {
-        return _dbContext.Machines.FirstOrDefault(machine => machine.Id == machineId);
+        return _dbContext.Machines.FirstOrDefault(m => m.Id == id);
     }
 }
