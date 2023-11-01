@@ -63,6 +63,10 @@ app.MapControllerRoute(
     pattern: "{controller=Machine}/{action=GetMachines}");
 
 app.MapControllerRoute(
+    name: "allMachines",
+    pattern: "{controller=Machine}/{action=GetAllMachines}");
+
+app.MapControllerRoute(
     name: "machineDetails",
     pattern: "{controller=Machine}/{action=GetMachineDetails}/{id}");
 

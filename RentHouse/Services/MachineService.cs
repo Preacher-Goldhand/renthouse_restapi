@@ -4,22 +4,22 @@ using System.Linq;
 
 public interface IMachineService 
 {
-    //IList<MachineModel> GetAllMachines();
+    IList<MachineModel> GetAllMachines();
     MachineModel GetMachineById(int machineId);
 }
-public class MachineService : IMachineService
-{
-    private readonly ApplicationDbContext _dbContext;
+    public class MachineService : IMachineService
+    {
+         private readonly ApplicationDbContext _dbContext;
 
     public MachineService(ApplicationDbContext dbContext)
     {
         _dbContext = dbContext;
     }
 
-    // public IList<MachineModel> GetAllMachines()
-    // {
-    //     return _dbContext.Machines.ToList();
-    // }
+    public IList<MachineModel> GetAllMachines()
+    {
+        return _dbContext.Machines.ToList();
+    }
 
     public MachineModel GetMachineById(int id)
     {

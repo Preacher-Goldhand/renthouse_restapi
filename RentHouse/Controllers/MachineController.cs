@@ -17,13 +17,28 @@ public class MachineController : Controller
     }
 
     [HttpGet]
+    public IActionResult GetAllMachines()
+    {
+        IList<MachineModel> machines = _machineService.GetAllMachines();
+
+        if (machines == null || machines.Count == 0)
+        {
+            return NotFound(); 
+        }
+
+        return Ok(machines); 
+    }
+
+    [HttpGet]
     public IActionResult GetMachineDetails(int machineId)
     {
         MachineModel machine = _machineService.GetMachineById(machineId);
+
         if (machine == null)
         {
             return NotFound();
         }
+
         return Ok(machine);
     }
 }
