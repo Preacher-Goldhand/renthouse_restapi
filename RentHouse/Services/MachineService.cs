@@ -7,9 +7,10 @@ public interface IMachineService
     IList<MachineModel> GetAllMachines();
     MachineModel GetMachineById(int machineId);
 }
-    public class MachineService : IMachineService
-    {
-         private readonly ApplicationDbContext _dbContext;
+
+public class MachineService : IMachineService
+{
+    private readonly ApplicationDbContext _dbContext;
 
     public MachineService(ApplicationDbContext dbContext)
     {

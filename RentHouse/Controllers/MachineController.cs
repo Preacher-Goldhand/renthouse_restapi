@@ -1,5 +1,8 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
+// [ApiController]
+// [Authorize]
 public class MachineController : Controller
 {
     private readonly IMachineService _machineService;
@@ -30,9 +33,9 @@ public class MachineController : Controller
     }
 
     [HttpGet]
-    public IActionResult GetMachineDetails(int machineId)
+    public IActionResult GetMachineDetails(int id)
     {
-        MachineModel machine = _machineService.GetMachineById(machineId);
+        MachineModel machine = _machineService.GetMachineById(id);
 
         if (machine == null)
         {
