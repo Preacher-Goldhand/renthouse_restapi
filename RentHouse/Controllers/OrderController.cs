@@ -25,7 +25,20 @@ public class OrderController : Controller
         return Ok(createdOrder);
     }
 
-    // [HttpGet]
+    [HttpPost]
+    public IActionResult CancelOrder(int orderId)
+    {
+        var canceledOrder = _orderService.CancelOrder(orderId);
+        
+        if (canceledOrder == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(canceledOrder);
+    }
+
+    //[HttpGet]
     // public IActionResult MyOrders()
     // {
     //     IList<OrderModel> orders = _orderService.GetOrdersFromUser();
