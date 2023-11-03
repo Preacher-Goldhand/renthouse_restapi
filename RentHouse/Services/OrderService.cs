@@ -7,6 +7,7 @@ public interface IOrderService
 {
     OrderModel CreateOrder(OrderModel orderModel);
     //IList<OrderModel> GetOrdersFromUser();
+    public OrderModel CancelOrder(int orderId);
 }
 
 public class OrderService : IOrderService
@@ -41,6 +42,18 @@ public class OrderService : IOrderService
         _dbContext.SaveChanges();
 
         return newOrder;
+    }
+
+    public OrderModel CancelOrder(int orderId)
+    {
+        var orderRemoved = _dbContext.Orders.FirstOrDefault(m => m.Id == orderId);
+
+        if(orderRemoved == null){
+            _dbContext.Orders.Remove(orderRemoved);
+            _dbContext.SaveChanges();
+        }
+
+        return orderRemoved;
     }
 
 //    public IList<OrderModel> GetOrdersFromUser()
