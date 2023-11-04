@@ -50,4 +50,15 @@ public class OrderController : Controller
 
     //     return Ok(orders.ToList()); 
     // }
+    [HttpGet]
+    public IActionResult Order(int id){
+        OrderModel order = _orderService.GetOrderModel(id);
+
+        if (order == null)
+        {
+            return NotFound(); 
+        }
+
+        return Ok(order);
+    }
 }
