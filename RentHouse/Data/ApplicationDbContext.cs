@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace RentHouse.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<UserModel>
+    public class ApplicationDbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -13,6 +13,8 @@ namespace RentHouse.Data
 
         public DbSet<MachineModel> Machines { get; set; }
         public DbSet<OrderModel> Orders { get; set; }
+        public DbSet<UserModel> Users { get; set; }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

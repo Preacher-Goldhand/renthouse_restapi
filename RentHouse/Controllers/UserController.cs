@@ -12,12 +12,17 @@ public class UserController : Controller
         _userService = userService;
     }
 
-    [HttpPost]
-    public IActionResult Register()
+    [HttpPost("register")]
+    public ActionResult RegisterUser([FromBody] RegisterUserDto dto)
     {
-        
-        return Content(htmlContent, "text/html");
+        _userService.CreateUser(dto);
+        return Ok();
     }
-
+    [HttpPost("login")]
+    public ActionResult LoginUser([FromBody] LoginUserDto dto)
+    {
+        string token = _userService.GenerateJwt(dto);
+        return Ok(token);
+    }
 
 }
