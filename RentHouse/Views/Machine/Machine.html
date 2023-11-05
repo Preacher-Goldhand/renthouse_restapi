@@ -40,8 +40,7 @@
             height: 100%;
             height: 600px;
             align-self: center;
-
-
+            overflow: hidden;
         }
 
         .center {
@@ -72,13 +71,16 @@
             height: 250px;
             align-items: end;
         }
+        span {
+            padding: 60px;
+        }
     </style>
 </head>
 
 <body>
 
     <div class="header">
-        <h1>Maszyny dostępne w Januszex-Express</h1>
+        <h1>Super maszyny w Januszex-Express!</h1>
     </div>
     <div class="left" >
         <!-- <button>navigation back</button> -->
@@ -110,38 +112,45 @@
 </body>
 
 <script type="text/javascript">
-    var url = "https://api.jsonbin.io/v3/qs/653e3ac154105e766fc88e9a";
+    var id = 1;
+    
+    //var url = "https://api.jsonbin.io/v3/qs/653e3ac154105e766fc88e9a";
     var xttp;
     function navForward() {
+        var asdf = '/Machine/GetMachineDetails/' + id;
         console.log("forward");
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
                 xttp = xhttp.responseText;
                 var res = JSON.parse(xttp);
+                console.log(res);
             // Typical action to be performed when the document is ready:
-            document.getElementById("section1").innerHTML = res.record.Name;
-            document.getElementById("section2").innerHTML = res.record.TechnicalDetails;
+            document.getElementById("section1").innerHTML = res.name;
+            document.getElementById("section2").innerHTML = res.descrition;
            
             }
         };
-        xhttp.open("GET", url, true);
+        xhttp.open("GET", asdf, true);
+        id+=1;
         xhttp.send();        
     }
     function navBack() {
+        var asdf = '/Machine/GetMachineDetails/' + id;
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
                 xttp = xhttp.responseText;
                 var res = JSON.parse(xttp);
             // Typical action to be performed when the document is ready:
-            document.getElementById("section1").innerHTML = res.record.Name;
-            document.getElementById("section2").innerHTML = res.record.TechnicalDetails;
+            document.getElementById("section1").innerHTML = res.name;
+            document.getElementById("section2").innerHTML = res.descrition;
            
             }
         };
-        xhttp.open("GET", url, true);
+        xhttp.open("GET", asdf, true);
         xhttp.send();
+        id=id-1;
         console.log("back");
     }
 
