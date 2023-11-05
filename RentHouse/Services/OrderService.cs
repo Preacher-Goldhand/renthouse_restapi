@@ -77,4 +77,9 @@ public class OrderService : IOrderService
 //         // Jeśli użytkownik nie jest zalogowany lub konwersja nie powiodła się, zwróć pustą listę
 //         return new List<OrderModel>();
 //     }
+    public OrderModel GetOrderModel(int id){
+        var order = _dbContext.Orders.FirstOrDefault(m => m.Id == orderId);
+
+        return order;
+    }
 }
