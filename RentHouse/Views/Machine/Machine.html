@@ -90,7 +90,10 @@
 
     </div>
     <div class="center">
-        <section class="photo">
+        <section class="photo" id="photo">
+            
+        </section>
+        <section class="description">
             <h3 id="section1"></h3>
         </section>
         <section class="description" id="section2">"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
@@ -113,6 +116,8 @@
 
 <script type="text/javascript">
     var id = 1;
+
+    
     
     //var url = "https://api.jsonbin.io/v3/qs/653e3ac154105e766fc88e9a";
     var xttp;
@@ -128,6 +133,40 @@
             // Typical action to be performed when the document is ready:
             document.getElementById("section1").innerHTML = res.name;
             document.getElementById("section2").innerHTML = res.descrition;
+
+            //procesowanie obrazka 
+            // Create an image element
+const img = document.createElement('img');
+
+// Or, reference existing image on page
+// const img = document.querySelector('#my-image');
+var dataurl ="";
+img.src = "/photos/"+id+".jpg";
+img.addEventListener('load', () => {
+  // Initialize the canvas and it's size
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
+
+  // Set width and height
+  canvas.width = 400;
+  canvas.height = 300;
+
+  // Draw image and export to a data-uri
+  ctx.drawImage(imgEl, 0, 0, canvas.width, canvas.height);
+  dataurl = canvas.toDataURL();
+  img.src = dataurl;
+  // Do something with the result, like overwrite original
+})
+
+// Set the image source 
+// (can also be a data-uri, extracted from form input)
+
+
+
+            var imgContainer = document.getElementById("photo");
+            //var img = document.createElement("img");
+            //img.src = "/photos/"+id+".jpg";
+            imgContainer.appendChild(img);
            
             }
         };
