@@ -1,8 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-// [ApiController]
-// [Authorize]
+//[ApiController]
 public class UserController : Controller
 {
     private readonly IUserService _userService;
@@ -12,17 +11,17 @@ public class UserController : Controller
         _userService = userService;
     }
 
-    [HttpPost("register")]
-    public ActionResult RegisterUser([FromBody] RegisterUserDto dto)
+    [HttpPost]
+    public ActionResult Register([FromBody] UserModel userModel)
     {
-        _userService.CreateUser(dto);
+        _userService.CreateUser(userModel);
         return Ok();
     }
-    [HttpPost("login")]
-    public ActionResult LoginUser([FromBody] LoginUserDto dto)
+
+    [HttpPost]
+    public ActionResult Login([FromBody] UserModel userModel)
     {
-        string token = _userService.GenerateJwt(dto);
+        string token = _userService.GenerateJwt(userModel);
         return Ok(token);
     }
-
 }

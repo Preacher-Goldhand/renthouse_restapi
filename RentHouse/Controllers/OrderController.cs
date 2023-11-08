@@ -1,8 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-// [ApiController]
-// [Authorize]
+[Authorize]
 public class OrderController : Controller
 {
     private readonly IOrderService _orderService;
@@ -50,15 +49,15 @@ public class OrderController : Controller
 
     //     return Ok(orders.ToList()); 
     // }
-    [HttpGet]
-    public IActionResult Order(int id){
-        OrderModel order = _orderService.GetOrderModel(id);
+    // [HttpGet]
+    // public IActionResult Order(int id){
+    //     OrderModel order = _orderService.GetOrderModel(id);
 
-        if (order == null)
-        {
-            return NotFound(); 
-        }
+    //     if (order == null)
+    //     {
+    //         return NotFound(); 
+    //     }
 
-        return Ok(order);
-    }
+    //     return Ok(order);
+    // }
 }

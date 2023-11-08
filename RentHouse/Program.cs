@@ -2,8 +2,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using RentHouse.Data;
 using System;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +19,10 @@ builder.Services.AddScoped<DataSeeder>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IMachineService, MachineService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IPasswordHasher<UserModel>, PasswordHasher<UserModel>>();
 builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages(); 
 
 var authenticationSettings = new AuthenticationSettings();
 builder.Configuration.GetSection("Authentication").Bind(authenticationSettings);
@@ -97,6 +102,14 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "userOrders",
     pattern: "{controller=Order}/{action=MyOrders}");
+
+app.MapControllerRoute(
+    name: "registerUser",
+    pattern: "{controller=User}/{action=Register}");
+
+app.MapControllerRoute(
+    name: "loginUser",
+    pattern: "{controller=User}/{action=Login}");    
 
 app.MapRazorPages();
 

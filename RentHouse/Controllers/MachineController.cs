@@ -1,8 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-// [ApiController]
-// [Authorize]
+[Authorize]
 public class MachineController : Controller
 {
     private readonly IMachineService _machineService;

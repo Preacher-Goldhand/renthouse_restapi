@@ -7,7 +7,6 @@ public class UserModel
     public string LastName {get; set;}
     public string Email {get; set;}
     public string UserPasswordHashed {get; set;}
-    public string ConfirmUserPasswordHash { get; set; }
     public string PostalCode {get; set;}
     public string Street {get; set;}
     public string StreetNumber {get; set;}

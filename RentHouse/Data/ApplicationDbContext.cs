@@ -4,13 +4,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace RentHouse.Data
 {
-    public class ApplicationDbContext
+    public class ApplicationDbContext : DbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            : base(options)
-        {
-        }
-
+            : base(options) {}
+        
         public DbSet<MachineModel> Machines { get; set; }
         public DbSet<OrderModel> Orders { get; set; }
         public DbSet<UserModel> Users { get; set; }

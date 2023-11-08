@@ -1,28 +1,29 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 using RentHouse.Data;
-using Renthouse Models;
-using System.Collections.Generic;
-using System.Linq;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 public interface IUserService{
-    public UserModel CreateUser(UserModel user);
+    public void CreateUser(UserModel user);
     public string GenerateJwt(UserModel dto);
 }
 
 public class UserService : IUserService
 {
     private readonly ApplicationDbContext _dbContext;
-    private readonly IPasswordHasher _passwordHasher;
-    private readonly AuthenticationSettings _authenticationsettings;
+    private readonly IPasswordHasher<UserModel> _passwordHasher;
+    private readonly AuthenticationSettings _authenticationSettings;
     
-    public UserService(ApplicationDbContext dbContext, IPasswordHasher passwordHasher, AuthenticationSettings authenticationSettings)
+    public UserService(ApplicationDbContext dbContext, IPasswordHasher<UserModel> passwordHasher, AuthenticationSettings authenticationSettings)
     {
         _dbContext = dbContext;
         _passwordHasher = passwordHasher;
-        _authenticationsettings = authenticationSettings;
+        _authenticationSettings = authenticationSettings;
     }
 
-    public UserModel CreateUser(UserModel user){
+    public void CreateUser(UserModel user){
         var newUser = new UserModel{
             Email = user.Email,
             FirstName = user.FirstName,
@@ -30,11 +31,11 @@ public class UserService : IUserService
             PostalCode = user.PostalCode,
             Street = user.Street,
             StreetNumber = user.StreetNumber,
-            City = user,City,
-        }
+            City = user.City
+        };
 
-        var hashedPassword = _passwordHasher.HashedPassword;
-        newUserPasswordHashed = user.UserPasswordHashedewUser.UserPasswordHashed = hashedPassword;
+        var hashedPassword = _passwordHasher.HashPassword(newUser, user.UserPasswordHashed);
+            newUser.UserPasswordHashed = hashedPassword;
 
         _dbContext.Users.Add(newUser);
         _dbContext.SaveChanges();
@@ -45,12 +46,12 @@ public class UserService : IUserService
             .FirstOrDefault(u => u.Email == dto.Email);
         if (user == null)
         {
-            throw new BadRequestException("Invalid username or password");
+            throw new ArgumentException("Invalid username or password");
         }
         var passwordHash = _passwordHasher.VerifyHashedPassword(user, user.UserPasswordHashed, dto.UserPasswordHashed);
         if (passwordHash == PasswordVerificationResult.Failed)
         {
-            throw new BadRequestException("Invalid username or password");
+            throw new ArgumentException("Invalid username or password");
         }
         var claims = new List<Claim>()
         {
