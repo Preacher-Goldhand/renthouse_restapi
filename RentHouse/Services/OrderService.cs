@@ -1,13 +1,16 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using RentHouse.Data;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 
 public interface IOrderService 
 {
-    OrderModel CreateOrder(OrderModel orderModel);
-    //IList<OrderModel> GetOrdersFromUser();
-    public OrderModel CancelOrder(int orderId);
+    OrderModel CreateOrder(OrderModel orderModel, ClaimsPrincipal user);
+    IList<OrderModel> GetOrdersFromUser(ClaimsPrincipal user);
+    public OrderModel CancelOrder(int orderId, ClaimsPrincipal user);
+    public OrderModel GetOrderModel(int orderId, ClaimsPrincipal user);
 }
 
 public class OrderService : IOrderService
@@ -19,15 +22,15 @@ public class OrderService : IOrderService
     public OrderService(ApplicationDbContext dbContext)
     {
         _dbContext = dbContext;
-        // _httpContextAccessor = httpContextAccessor;
-        // _userManager = userManager;
     }
 
-    public OrderModel CreateOrder(OrderModel orderModel)
+    public OrderModel CreateOrder(OrderModel orderModel, ClaimsPrincipal user)
     {
+
+        if (!int.TryParse(user.FindFirst(ClaimTypes.NameIdentifier).Value, out int userId))return null;
         var newOrder = new OrderModel
         {
-            User = orderModel.User,
+            //User = orderModel.User,
             Machine = orderModel.Machine,
             StartDate = orderModel.StartDate,
             EndDate = orderModel.EndDate,
@@ -35,17 +38,17 @@ public class OrderService : IOrderService
             TotalTime = orderModel.TotalTime
         };
 
-        // var userId = orderModel.User.Id; // Pobierz ID użytkownika
-        // newOrder.User = _dbContext.Users.FirstOrDefault(u => u.Id == userId);
-
+       
         _dbContext.Orders.Add(newOrder);
         _dbContext.SaveChanges();
-
+            
         return newOrder;
     }
 
-    public OrderModel CancelOrder(int orderId)
+    public OrderModel CancelOrder(int orderId, ClaimsPrincipal user)
     {
+        if (!int.TryParse(user.FindFirst(ClaimTypes.NameIdentifier).Value, out int userId))return null;
+
         var orderRemoved = _dbContext.Orders.FirstOrDefault(m => m.Id == orderId);
 
         if(orderRemoved == null){
@@ -54,32 +57,21 @@ public class OrderService : IOrderService
         }
 
         return orderRemoved;
+        
     }
 
-//    public IList<OrderModel> GetOrdersFromUser()
-//     {
-//         // Pobierz aktualnie zalogowanego użytkownika
-//         var user = _httpContextAccessor.HttpContext.User;
+   public IList<OrderModel> GetOrdersFromUser(ClaimsPrincipal user)
+    {
+        // Pobierz aktualnie zalogowanego użytkownika
+        if (!int.TryParse(user.FindFirst(ClaimTypes.NameIdentifier).Value, out int userId))return new List<OrderModel>();
 
-//         // Sprawdź, czy użytkownik jest zalogowany
-//         if (user.Identity.IsAuthenticated)
-//         {
-//             // Pobierz ID zalogowanego użytkownika jako ciąg znaków
-//             var userIdAsString = _userManager.GetUserId(user);
+        return _dbContext.Orders.Where(o => o.User.Id == userId).ToList();
+    }
+    public OrderModel GetOrderModel(int id, ClaimsPrincipal user){
+    if (!int.TryParse(user.FindFirst(ClaimTypes.NameIdentifier).Value, out int userId))return null;
 
-//             if (int.TryParse(userIdAsString, out int userId))
-//             {
-//                 // Zwróć zamówienia tylko dla danego użytkownika
-//                 return _dbContext.Orders.Where(o => o.User.Id == userId).ToList();
-//             }
-//         }
+        var order = _dbContext.Orders.FirstOrDefault(m => m.Id == id);
 
-//         // Jeśli użytkownik nie jest zalogowany lub konwersja nie powiodła się, zwróć pustą listę
-//         return new List<OrderModel>();
-//     }
-    // public OrderModel GetOrderModel(int id){
-    //     var order = _dbContext.Orders.FirstOrDefault(m => m.Id == orderId);
-
-    //     return order;
-    // }
+        return order;
+    }
 }

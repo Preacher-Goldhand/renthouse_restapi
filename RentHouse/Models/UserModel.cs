@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 
-public class UserModel 
+public class UserModel : IdentityUser
 {
     public int Id {get; set;}
     public string FirstName {get; set;}
