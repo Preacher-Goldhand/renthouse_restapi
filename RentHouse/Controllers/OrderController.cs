@@ -27,10 +27,9 @@ public class OrderController : Controller
     }
 
     [HttpPost]
-    public IActionResult CancelOrder(int orderId)
+    public IActionResult RemoveOrder(int orderId)
     {
-        ClaimsPrincipal user = HttpContext.User;
-        var canceledOrder = _orderService.CancelOrder(orderId, user);
+        var canceledOrder = _orderService.CancelOrder(orderId);
         
         if (canceledOrder == null)
         {
@@ -53,10 +52,10 @@ public class OrderController : Controller
 
         return Ok(orders.ToList()); 
     }
+
     [HttpGet]
-    public IActionResult Order(int id){
-        ClaimsPrincipal user = HttpContext.User;
-        OrderModel order = _orderService.GetOrderModel(id, user);
+    public IActionResult GetOrderById(int id){
+        OrderModel order = _orderService.GetOrderModel(id);
 
         if (order == null)
         {
