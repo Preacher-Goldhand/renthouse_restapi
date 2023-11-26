@@ -18,25 +18,25 @@
     </style>
 
     <style>
-        .header {
+        .header  {
             width: 100%;
             background-color: #fdd88a;
-            height: 100x;
+            /* height: 100x; */
             display: flex;
-            align-items: center;
+            justify-content: space-around;
 
         }
 
         h1 {
             font-stretch: expanded;
-            color: #a9a9a9;
+            color: #676666;
         }
 
         .left,
         .right {
-            display: flex;
-            float: right;
-            width: 15%;
+            /* display: flex; */
+            float: left;
+            /* width: 15%; */
             height: 100%;
             height: 600px;
             align-self: center;
@@ -45,10 +45,12 @@
 
         .center {
             /* display: flex; */
-            float: right;
-            width: 69%;
-            height: 600px;
+            float: left;
+            /* width: 69%; */
+            /* height: 600px; */
             background-color: #fbefbf;
+            padding-left: 20px;
+            padding-right: 20px;
         }
 
         body {
@@ -66,13 +68,36 @@
 
         .navcontainer {
             cursor: pointer;
-            width: 250px;
+            /* width: 250px; */
             display: flex;
-            height: 250px;
+            /* height: 250px; */
             align-items: end;
         }
         span {
             padding: 60px;
+        }
+        .photo { 
+            display: flex;
+            justify-content: center;
+            border-radius: 20px;
+            overflow:hidden;
+        }
+        img {
+            border-radius: 10px;
+        }
+        .loginbutton{
+            width: 140px;
+            margin: 10px;
+            color: #676666;
+            font-weight: bolder;
+            font-size: larger;
+            border: 3px solid #676666;
+            border-radius: 4px;
+            background: #fffbdae8;
+        }
+        .rest{
+            display: flex;
+            justify-content: center;
         }
     </style>
 </head>
@@ -81,43 +106,50 @@
 
     <div class="header">
         <h1>Super maszyny w Januszex-Express!</h1>
+        <div><button class="loginbutton">Zaloguj</button>
+            <button class="loginbutton">Zarejestruj</button></div>
+
     </div>
-    <div class="left" >
-        <!-- <button>navigation back</button> -->
-        <div class="navcontainer" onclick="navForward();"><span class="material-symbols-outlined" >
+    <div class="rest">
+        <div class="left" >
+            <!-- <button>navigation back</button> -->
+           
+
+                <div class="navcontainer" onclick="navBack();">
+                    <span class="material-symbols-outlined" >
+                        arrow_back_ios_new
+                    </span>
+                </div>
+    
+        </div>
+        <div class="center">
+            <section class="photo" id="photo">
+                
+            </section>
+            <section class="description">
+                <h3 id="section1"></h3>
+            </section>
+            <section class="description" id="section2">"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+                esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa
+                qui officia deserunt mollit anim id est laborum."</section>
+            <section class="order-form"></section>
+        </div>
+    
+        <div class="right">
+            <!-- <button>navigation forward</button> -->
+            <div class="navcontainer" onclick="navForward();"><span class="material-symbols-outlined" >
                 arrow_forward_ios
             </span></div>
-
-    </div>
-    <div class="center">
-        <section class="photo" id="photo">
-            
-        </section>
-        <section class="description">
-            <h3 id="section1"></h3>
-        </section>
-        <section class="description" id="section2">"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-            incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-            laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
-            esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa
-            qui officia deserunt mollit anim id est laborum."</section>
-        <section class="order-form"></section>
-    </div>
-
-    <div class="right">
-        <!-- <button>navigation forward</button> -->
-        <div class="navcontainer" onclick="navBack();">
-            <span class="material-symbols-outlined" >
-                arrow_back_ios_new
-            </span>
         </div>
     </div>
 </body>
 
 <script type="text/javascript">
     var id = 1;
+    const photoelement = document.getElementById("photo");
 
-    
     
     //var url = "https://api.jsonbin.io/v3/qs/653e3ac154105e766fc88e9a";
     var xttp;
@@ -134,46 +166,26 @@
             document.getElementById("section1").innerHTML = res.name;
             document.getElementById("section2").innerHTML = res.descrition;
 
-            //procesowanie obrazka 
-            // Create an image element
-const img = document.createElement('img');
-
-// Or, reference existing image on page
-// const img = document.querySelector('#my-image');
-var dataurl ="";
-img.src = "/photos/"+id+".jpg";
-img.addEventListener('load', () => {
-  // Initialize the canvas and it's size
-  const canvas = document.createElement("canvas");
-  const ctx = canvas.getContext("2d");
-
-  // Set width and height
-  canvas.width = 400;
-  canvas.height = 300;
-
-  // Draw image and export to a data-uri
-  ctx.drawImage(imgEl, 0, 0, canvas.width, canvas.height);
-  dataurl = canvas.toDataURL();
-  img.src = dataurl;
-  // Do something with the result, like overwrite original
-})
-
-// Set the image source 
-// (can also be a data-uri, extracted from form input)
-
-
-
-            var imgContainer = document.getElementById("photo");
-            //var img = document.createElement("img");
-            //img.src = "/photos/"+id+".jpg";
-            imgContainer.appendChild(img);
+            
+            const img = document.createElement('img'); 
+            var photoid = id-1;           
+            img.src = "/photos/"+photoid+".jpg";
+            photoelement.innerHTML="";
+            photoelement.appendChild(img);
            
+            }
+            else if(this.status == 404){
+                id = 1; 
+                navForward();
             }
         };
         xhttp.open("GET", asdf, true);
-        id+=1;
-        xhttp.send();        
+        
+        xhttp.send();       
+        id+=1; 
     }
+
+
     function navBack() {
         var asdf = '/Machine/GetMachineDetails/' + id;
         var xhttp = new XMLHttpRequest();
@@ -185,14 +197,26 @@ img.addEventListener('load', () => {
             document.getElementById("section1").innerHTML = res.name;
             document.getElementById("section2").innerHTML = res.descrition;
            
+            const img = document.createElement('img');  
+            var photoid = id-1;           
+            img.src = "/photos/"+photoid+".jpg";          
+            
+            photoelement.innerHTML="";
+            photoelement.appendChild(img);
+
+            }
+            else if(this.status == 404){
+                id = 12; 
+                navBack();
             }
         };
         xhttp.open("GET", asdf, true);
         xhttp.send();
-        id=id-1;
+        
         console.log("back");
+        id=id-1;
     }
-
+    navBack(); navForward();
 </script>
 
 </html>
