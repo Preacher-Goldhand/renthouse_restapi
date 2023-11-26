@@ -9,8 +9,8 @@ public interface IOrderService
 {
     OrderModel CreateOrder(OrderModel orderModel, ClaimsPrincipal user);
     IList<OrderModel> GetOrdersFromUser(ClaimsPrincipal user);
-    public OrderModel CancelOrder(int orderId, ClaimsPrincipal user);
-    public OrderModel GetOrderModel(int orderId, ClaimsPrincipal user);
+    public OrderModel CancelOrder(int orderId);
+    public OrderModel GetOrderModel(int orderId);
 }
 
 public class OrderService : IOrderService
@@ -45,10 +45,8 @@ public class OrderService : IOrderService
         return newOrder;
     }
 
-    public OrderModel CancelOrder(int orderId, ClaimsPrincipal user)
+    public OrderModel CancelOrder(int orderId)
     {
-        if (!int.TryParse(user.FindFirst(ClaimTypes.NameIdentifier).Value, out int userId))return null;
-
         var orderRemoved = _dbContext.Orders.FirstOrDefault(m => m.Id == orderId);
 
         if(orderRemoved == null){
@@ -67,9 +65,8 @@ public class OrderService : IOrderService
 
         return _dbContext.Orders.Where(o => o.User.Id == userId).ToList();
     }
-    public OrderModel GetOrderModel(int id, ClaimsPrincipal user){
-    if (!int.TryParse(user.FindFirst(ClaimTypes.NameIdentifier).Value, out int userId))return null;
-
+    
+    public OrderModel GetOrderModel(int id){
         var order = _dbContext.Orders.FirstOrDefault(m => m.Id == id);
 
         return order;
