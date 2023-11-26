@@ -65,8 +65,6 @@ catch (Exception ex)
 if (app.Environment.IsDevelopment())
 {
     app.UseMigrationsEndPoint();
-    app.UseSwagger();
-    app.UseSwaggerUI();
 }
 else
 {
@@ -112,18 +110,26 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "loginUser",
     pattern: "{controller=User}/{action=Login}");
+
 app.MapControllerRoute(
     name: "createOrder",
     pattern: "{controller=Order}/{action=CreateOrder}");
+
 app.MapControllerRoute(
     name: "removeOrder",
     pattern: "{controller=Order}/{action=RemoveOrder}");
+
 app.MapControllerRoute(
     name: "orders",
     pattern: "{controller=Order}/{action=MyOrders}");
+
 app.MapControllerRoute(
     name: "order",
     pattern: "{controller=Order}/{action=GetOrderById}");
+
+app.MapControllerRoute(
+    name: "loginPage",
+    pattern: "{controller=User}/{action=GeLoginPage}");
 
 app.MapRazorPages();
 
