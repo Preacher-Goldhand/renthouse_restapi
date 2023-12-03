@@ -2051,23 +2051,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\student\\.nuget\\packages\\": {},
+    "C:\\Users\\rench\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\student\\Documents\\projekt\\renthouse_restapi\\RentHouse\\RentHouse.csproj",
+      "projectUniqueName": "C:\\Users\\rench\\Desktop\\studia_Mateusz\\Projekt zespolowy\\renthouse_restapi\\RentHouse\\RentHouse.csproj",
       "projectName": "RentHouse",
-      "projectPath": "C:\\Users\\student\\Documents\\projekt\\renthouse_restapi\\RentHouse\\RentHouse.csproj",
-      "packagesPath": "C:\\Users\\student\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\student\\Documents\\projekt\\renthouse_restapi\\RentHouse\\obj\\",
+      "projectPath": "C:\\Users\\rench\\Desktop\\studia_Mateusz\\Projekt zespolowy\\renthouse_restapi\\RentHouse\\RentHouse.csproj",
+      "packagesPath": "C:\\Users\\rench\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\rench\\Desktop\\studia_Mateusz\\Projekt zespolowy\\renthouse_restapi\\RentHouse\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\student\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\rench\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -2076,7 +2076,7 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {}
+        "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net7.0": {

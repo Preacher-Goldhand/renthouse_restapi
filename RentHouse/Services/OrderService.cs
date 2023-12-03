@@ -7,27 +7,23 @@ using System.Security.Claims;
 
 public interface IOrderService 
 {
-    OrderModel CreateOrder(OrderModel orderModel, ClaimsPrincipal user);
+    OrderModel CreateOrder(OrderModel orderModel);
     IList<OrderModel> GetOrdersFromUser(ClaimsPrincipal user);
-    public OrderModel CancelOrder(int orderId);
+    public void RemoveOrder(int orderId);
     public OrderModel GetOrderModel(int orderId);
 }
 
 public class OrderService : IOrderService
 {
     private readonly ApplicationDbContext _dbContext;
-    // private readonly IHttpContextAccessor _httpContextAccessor;
-    // private readonly UserManager<UserModel> _userManager;
-
+    
     public OrderService(ApplicationDbContext dbContext)
     {
         _dbContext = dbContext;
     }
 
-    public OrderModel CreateOrder(OrderModel orderModel, ClaimsPrincipal user)
+    public OrderModel CreateOrder(OrderModel orderModel)
     {
-
-        if (!int.TryParse(user.FindFirst(ClaimTypes.NameIdentifier).Value, out int userId))return null;
         var newOrder = new OrderModel
         {
             //User = orderModel.User,
@@ -38,14 +34,13 @@ public class OrderService : IOrderService
             TotalTime = orderModel.TotalTime
         };
 
-       
         _dbContext.Orders.Add(newOrder);
         _dbContext.SaveChanges();
             
         return newOrder;
     }
 
-    public OrderModel CancelOrder(int orderId)
+    public void RemoveOrder(int orderId)
     {
         var orderRemoved = _dbContext.Orders.FirstOrDefault(m => m.Id == orderId);
 
@@ -53,20 +48,17 @@ public class OrderService : IOrderService
             _dbContext.Orders.Remove(orderRemoved);
             _dbContext.SaveChanges();
         }
-
-        return orderRemoved;
-        
     }
 
    public IList<OrderModel> GetOrdersFromUser(ClaimsPrincipal user)
     {
-        // Pobierz aktualnie zalogowanego użytkownika
         if (!int.TryParse(user.FindFirst(ClaimTypes.NameIdentifier).Value, out int userId))return new List<OrderModel>();
 
         return _dbContext.Orders.Where(o => o.User.Id == userId).ToList();
     }
     
-    public OrderModel GetOrderModel(int id){
+    public OrderModel GetOrderModel(int id)
+    {
         var order = _dbContext.Orders.FirstOrDefault(m => m.Id == id);
 
         return order;

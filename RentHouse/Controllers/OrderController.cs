@@ -29,14 +29,9 @@ public class OrderController : Controller
     [HttpPost]
     public IActionResult RemoveOrder(int orderId)
     {
-        var canceledOrder = _orderService.CancelOrder(orderId);
-        
-        if (canceledOrder == null)
-        {
-            return NotFound();
-        }
-        
-        return Ok(canceledOrder);
+        _orderService.RemoveOrder(orderId);
+     
+        return Ok();
     }
 
     [HttpGet]
@@ -55,7 +50,7 @@ public class OrderController : Controller
 
     [HttpGet]
     public IActionResult GetOrderById(int id){
-        OrderModel order = _orderService.GetOrderModel(id);
+        var order = _orderService.GetOrderModel(id);
 
         if (order == null)
         {

@@ -129,7 +129,7 @@ app.MapControllerRoute(
 
 app.MapControllerRoute(
     name: "loginPage",
-    pattern: "{controller=User}/{action=GeLoginPage}");
+    pattern: "{controller=User}/{action=GetLoginPage}");
 
 app.MapRazorPages();
 
