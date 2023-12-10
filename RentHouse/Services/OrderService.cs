@@ -24,16 +24,22 @@ public class OrderService : IOrderService
 
     public OrderModel CreateOrder(OrderModel orderModel)
     {
+
+        // var machine = _dbContext.Machines
+        //         .FirstOrDefault(b => b.Id == machineId);
+
         var newOrder = new OrderModel
         {
-            //User = orderModel.User,
-            Machine = orderModel.Machine,
+            UserId = orderModel.UserId,
+            MachineId = orderModel.MachineId,
             StartDate = orderModel.StartDate,
             EndDate = orderModel.EndDate,
             TotalPrice = orderModel.TotalPrice,
             TotalTime = orderModel.TotalTime
+
         };
 
+        
         _dbContext.Orders.Add(newOrder);
         _dbContext.SaveChanges();
             
