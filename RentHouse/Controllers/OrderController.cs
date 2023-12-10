@@ -58,4 +58,11 @@ public class OrderController : Controller
 
         return Ok(order);
     }
+
+    [HttpGet][AllowAnonymous]
+    public IActionResult GetOrderPage()
+    {
+        var htmlContent = System.IO.File.ReadAllText("./Views/Orders/Order.html");
+        return Content(htmlContent, "text/html");
+    }
 }
