@@ -38,8 +38,7 @@ public class OrderService : IOrderService
             TotalTime = orderModel.TotalTime
 
         };
-
-        
+  
         _dbContext.Orders.Add(newOrder);
         _dbContext.SaveChanges();
             
@@ -50,7 +49,7 @@ public class OrderService : IOrderService
     {
         var orderRemoved = _dbContext.Orders.FirstOrDefault(m => m.Id == orderId);
 
-        if(orderRemoved == null){
+        if(orderRemoved != null){
             _dbContext.Orders.Remove(orderRemoved);
             _dbContext.SaveChanges();
         }

@@ -25,7 +25,7 @@ public class OrderController : Controller
         return Ok(createdOrder);
     }
 
-    [HttpPost]
+    [HttpDelete]
     public IActionResult RemoveOrder(int orderId)
     {
         _orderService.RemoveOrder(orderId);
