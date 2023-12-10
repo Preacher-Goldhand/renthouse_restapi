@@ -114,7 +114,7 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "removeOrder",
     pattern: "{controller=Order}/{action=RemoveOrder}");
-
+    
 app.MapControllerRoute(
     name: "orders",
     pattern: "{controller=Order}/{action=MyOrders}");

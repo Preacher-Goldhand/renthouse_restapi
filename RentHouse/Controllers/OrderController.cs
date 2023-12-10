@@ -13,10 +13,9 @@ public class OrderController : Controller
     }
 
     [HttpPost]
-    public IActionResult CreateOrder(OrderModel orderModel)
+    public IActionResult CreateOrder([FromBody] OrderModel orderModel)
     {
-        ClaimsPrincipal user = HttpContext.User;
-        var createdOrder = _orderService.CreateOrder(orderModel, user);
+        var createdOrder = _orderService.CreateOrder(orderModel);
         
         if (createdOrder == null)
         {
