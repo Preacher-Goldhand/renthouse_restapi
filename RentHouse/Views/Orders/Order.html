@@ -1,0 +1,137 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Januszex-Express Zamowienia</title>
+    <style>
+
+        .center {
+            /* display: flex; */
+            float: left;
+            /* width: 69%; */
+            /* height: 600px; */
+            background-color: #fbefbf;
+            padding-left: 20px;
+            padding-right: 20px;
+            border-radius: 20px;
+        }
+
+        body {
+            background-color: #ffffe8;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+
+        }
+
+        .navcontainer {
+            cursor: pointer;
+            /* width: 250px; */
+            display: flex;
+            /* height: 250px; */
+            align-items: end;
+        }
+
+        .loginbutton{
+            width: 140px;
+            margin: 10px;
+            color: #676666;
+            font-weight: bolder;
+            font-size: larger;
+            border: 3px solid #676666;
+            border-radius: 4px;
+            background: #fffbdae8;
+        }
+        .rest{
+            display: flex;
+            justify-content: center; 
+        }
+        .loginform{
+            display: flex;
+            flex-direction: column;
+            padding: 60px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="rest">
+        <div class="center">
+            <form class="loginform" id="form" > 
+                
+                <input name="sumbmit" id="submit" type="submit" value="Pobierz"></input>
+            </form>
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript">
+    
+    const submit = document.getElementById("submit");
+    const form = document.getElementById("form");
+
+    window.addEventListener("load", () => {
+
+    function sendData() {
+        const XHR = new XMLHttpRequest();
+
+        // Bind the FormData object and the form element
+        const FD = new FormData(form);
+
+        console.log(FD);
+
+        var object = {};
+        FD.forEach(function(value, key){
+            object[key] = value;
+        });
+        var json = JSON.stringify(object);
+        console.log(json);
+
+        // Define what happens on successful data submission
+        XHR.addEventListener("load", (event) => {
+        alert(event.target.responseText);
+        document.cookie = `${"token"}=${event.target.responseText}`;
+        //; SameSite=None; Secure
+        });
+
+        // Define what happens in case of error
+        XHR.addEventListener("error", (event) => {
+        alert("Oops! Something went wrong.");
+        });
+
+        // Set up our request
+        XHR.open("POST", "/User/Login");
+        XHR.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+        // The data sent is what the user provided in the form
+        XHR.send(json);
+    }
+
+    function getCookie(cookieName) {
+    let cookie = {};
+    document.cookie.split(';').forEach(function(el) {
+        let [key,value] = el.split('=');
+        cookie[key.trim()] = value;
+    })
+    return cookie[cookieName];
+    }
+
+    async function getData() {
+        const response = await fetch('/Order/MyOrders', {
+        headers: {Authorization: `Bearer ${getCookie("token")}`}
+        });
+        console.log(getCookie("token"));
+        const orders = await response.json();
+        console.log(orders);
+    }
+
+    // Add 'submit' event handler
+    form.addEventListener("submit", (event) => {
+        console.log("get");
+        event.preventDefault();
+        //sendData();
+        getData();
+    });
+    });
+
+</script>
+
+</html>
