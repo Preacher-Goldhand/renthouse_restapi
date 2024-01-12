@@ -3,7 +3,33 @@
 
 <head>
     <title>Januszex-Express Zamowienia</title>
+    <meta charset="UTF-8">
     <style>
+        .header  {
+            width: 100%;
+            background-color: #fdd88a;
+            /* height: 100x; */
+            display: flex;
+            justify-content: space-around;
+            border-radius: 10px;
+
+        }
+
+        h1 {
+            font-stretch: expanded;
+            color: #676666;
+        }
+
+        .left,
+        .right {
+            /* display: flex; */
+            float: left;
+            /* width: 15%; */
+            height: 100%;
+            height: 600px;
+            align-self: center;
+            overflow: hidden;
+        }
 
         .center {
             /* display: flex; */
@@ -13,11 +39,114 @@
             background-color: #fbefbf;
             padding-left: 20px;
             padding-right: 20px;
-            border-radius: 20px;
         }
 
         body {
             background-color: #ffffe8;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+
+        }
+
+        section {
+            padding: 10px;
+            margin: 10px;
+            border-radius: 10px;
+            background-color: white;
+        }
+
+        .navcontainer {
+            cursor: pointer;
+            /* width: 250px; */
+            display: flex;
+            /* height: 250px; */
+            align-items: end;
+        }
+        span {
+            padding: 60px;
+        }
+        .photo { 
+            display: flex;
+            justify-content: center;
+            border-radius: 20px;
+            overflow:hidden;
+        }
+        img {
+            border-radius: 10px;
+        }
+        .loginbutton{
+            width: 140px;
+            margin: 10px;
+            color: #676666;
+            font-weight: bolder;
+            font-size: larger;
+            border: 3px solid #676666;
+            border-radius: 4px;
+            background: #fffbdae8;
+        }
+        .rest{
+            display: flex;
+            justify-content: center;
+        }
+        table.blueTable {
+        margin: 20px;
+        text-align: center;
+        border-collapse: collapse;
+        }
+        table.blueTable td, table.blueTable th {
+        border: 6px solid #FFFFFF;
+        padding: 6px 6px;
+        }
+        table.blueTable tbody td {
+        font-size: 13px;
+        }
+        table.blueTable tr:nth-child(even) {
+        background: #FBEFBF;
+        }
+        table.blueTable #thead {
+        background: #FDD88A;
+        background: -moz-linear-gradient(top, #fde2a7 0%, #fddc95 66%, #FDD88A 100%);
+        background: -webkit-linear-gradient(top, #fde2a7 0%, #fddc95 66%, #FDD88A 100%);
+        background: linear-gradient(to bottom, #fde2a7 0%, #fddc95 66%, #FDD88A 100%);
+        }
+        table.blueTable #thead th {
+        font-size: 15px;
+        font-weight: bold;
+        color: #FFFFFF;
+        }
+        table.blueTable tfoot {
+        font-size: 14px;
+        font-weight: bold;
+        color: #FFFFFF;
+        }
+        table.blueTable tfoot td {
+        font-size: 14px;
+        }
+        table.blueTable tfoot .links {
+        text-align: right;
+        }
+        table.blueTable tfoot .links a{
+        display: inline-block;
+        background: #FDC12D;
+        color: #FFFFFF;
+        padding: 2px 8px;
+        border-radius: 5px;
+}
+    </style>
+
+    <style>
+
+        .center {
+            float: left;
+            margin-top: 10px;
+       
+            background-color: #fbefbf;
+            padding-left: 20px;
+            padding-right: 20px;
+            border-radius: 20px;
+        }
+
+        body {
+            background-color: #ffffe99e;
             font-family: Verdana, Geneva, Tahoma, sans-serif;
 
         }
@@ -53,13 +182,14 @@
 </head>
 
 <body>
-    <div class="rest">
-        <div class="center">
-            <form class="loginform" id="form" > 
-                
-                <input name="sumbmit" id="submit" type="submit" value="Pobierz"></input>
-            </form>
-        </div>
+    <div class="header">
+        <h1>Super maszyny w Januszex-Express!</h1>
+        <div><button class="loginbutton" onclick="{window.location = '/User/GetLoginPage'}" >Zaloguj</button>
+            <button class="loginbutton">Zarejestruj</button></div>
+
+    </div>
+    <div class="rest" id="rest">
+        <div class="center" id="center"></div>
     </div>
 </body>
 
@@ -68,69 +198,83 @@
     const submit = document.getElementById("submit");
     const form = document.getElementById("form");
 
-    window.addEventListener("load", () => {
+    var translation = {
+        "id": "Numer Zamówienia",
+        "userId": "Identyfikator użytkownika",
+        "user": "",
+        "machineId": "Identyfikator maszyny",
+        "machine": "",
+        "startDate": "Data rozpoczęcia",
+        "endDate": "Data zakończenia ",
+        "totalPrice": "Cena całkowita",
+        "totalTime": "Całkowity czas wypożyczenia"
+    }
+    var hidden = ["user", "machine"];
 
-    function sendData() {
-        const XHR = new XMLHttpRequest();
-
-        // Bind the FormData object and the form element
-        const FD = new FormData(form);
-
-        console.log(FD);
-
-        var object = {};
-        FD.forEach(function(value, key){
-            object[key] = value;
-        });
-        var json = JSON.stringify(object);
-        console.log(json);
-
-        // Define what happens on successful data submission
-        XHR.addEventListener("load", (event) => {
-        alert(event.target.responseText);
-        document.cookie = `${"token"}=${event.target.responseText}`;
-        //; SameSite=None; Secure
-        });
-
-        // Define what happens in case of error
-        XHR.addEventListener("error", (event) => {
-        alert("Oops! Something went wrong.");
-        });
-
-        // Set up our request
-        XHR.open("POST", "/User/Login");
-        XHR.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-
-        // The data sent is what the user provided in the form
-        XHR.send(json);
+    async function get() {
+        const response = await fetch("/Order/AllOrders");
+        const jsn = await response.json();
+        console.log(jsn);
+        transform(jsn);
+        return jsn;
     }
 
-    function getCookie(cookieName) {
-    let cookie = {};
-    document.cookie.split(';').forEach(function(el) {
-        let [key,value] = el.split('=');
-        cookie[key.trim()] = value;
-    })
-    return cookie[cookieName];
-    }
+    function transform(jsn){
+        var jsonData = jsn;
+        
+        // Get the container element where the table will be inserted
+         let container = document.getElementById("center");
+         
+         // Create the table element
+         let table = document.createElement("table");
+         table.className="blueTable";
+         
+         // Get the keys (column names) of the first object in the JSON data
+         let cols = Object.keys(jsonData[0]);
+         
+         // Create the header element
+         let thead = document.createElement("thead");
+         
+         let tr = document.createElement("tr");
+         tr.id="thead";
+         // Loop through the column names and create header cells
+         cols.forEach((item) => {
+            if(!hidden.includes(item)){
+                let th = document.createElement("th");
+                th.innerText = translation[item]; // Set the column name as the text of the header cell
+                tr.appendChild(th); // Append the header cell to the header row
+            }
+         });
+         thead.appendChild(tr); // Append the header row to the header
+         table.append(tr) // Append the header to the table
+         
+         // Loop through the JSON data and create table rows
+         jsonData.forEach((item) => {
+            delete item['user'];
+            delete item['machine'];
+            if(!hidden.includes(item)){
+            let tr = document.createElement("tr");
+            
+            // Get the values of the current object in the JSON data
+            let vals = Object.values(item);
+            
+            // Loop through the values and create table cells
+            vals.forEach((elem) => {
 
-    async function getData() {
-        const response = await fetch('/Order/MyOrders', {
-        headers: {Authorization: `Bearer ${getCookie("token")}`}
-        });
-        console.log(getCookie("token"));
-        const orders = await response.json();
-        console.log(orders);
-    }
+               let td = document.createElement("td");
+               td.innerText = elem; // Set the value as the text of the table cell
+               tr.appendChild(td); // Append the table cell to the table row
 
-    // Add 'submit' event handler
-    form.addEventListener("submit", (event) => {
-        console.log("get");
-        event.preventDefault();
-        //sendData();
-        getData();
-    });
-    });
+            });
+            table.appendChild(tr); // Append the table row to the table
+        }
+         });
+         container.appendChild(table) // Append the table to the container element
+      }
+
+
+
+      get();
 
 </script>
 

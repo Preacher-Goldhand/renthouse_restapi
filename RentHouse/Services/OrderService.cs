@@ -9,6 +9,7 @@ public interface IOrderService
 {
     OrderModel CreateOrder(OrderModel orderModel);
     IList<OrderModel> GetOrdersFromUser(ClaimsPrincipal user);
+    IList<OrderModel> GetOrders();
     public void RemoveOrder(int orderId);
     public OrderModel GetOrderModel(int orderId);
 }
@@ -60,6 +61,11 @@ public class OrderService : IOrderService
         if (!int.TryParse(user.FindFirst(ClaimTypes.NameIdentifier).Value, out int userId))return new List<OrderModel>();
 
         return _dbContext.Orders.Where(o => o.User.Id == userId).ToList();
+    }
+
+    public IList<OrderModel> GetOrders()
+    {
+        return _dbContext.Orders.Where(o => o.Id >0).ToList();
     }
     
     public OrderModel GetOrderModel(int id)

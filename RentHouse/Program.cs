@@ -120,6 +120,10 @@ app.MapControllerRoute(
     pattern: "{controller=Order}/{action=MyOrders}");
 
 app.MapControllerRoute(
+    name: "allorders",
+    pattern: "{controller=Order}/{action=AllOrders}");
+
+app.MapControllerRoute(
     name: "order",
     pattern: "{controller=Order}/{action=GetOrderById}");
 

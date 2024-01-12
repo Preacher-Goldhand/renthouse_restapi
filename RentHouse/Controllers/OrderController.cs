@@ -47,7 +47,21 @@ public class OrderController : Controller
         return Ok(orders.ToList()); 
     }
 
-    [HttpGet]
+    [HttpGet][AllowAnonymous]
+    public IActionResult AllOrders()
+    {
+        
+        IList<OrderModel> orders = _orderService.GetOrders();
+
+        if (orders == null || orders.Count == 0)
+        {
+            return NotFound(); 
+        }
+
+        return Ok(orders.ToList()); 
+    }
+
+    [HttpGet][AllowAnonymous]
     public IActionResult GetOrderById(int id){
         var order = _orderService.GetOrderModel(id);
 
