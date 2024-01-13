@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 public class MachineModel
 {
     public int Id {get; set;}

@@ -19,6 +19,27 @@ namespace RentHouse.Data
             // Configure your database provider here (e.g., UseSqlite, UseSqlServer).
             // optionsBuilder.UseSqlite("DataSource=app.sqlite;Cache=Shared");
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder
+                .Entity<OrderModel>()
+                .HasOne(u => u.User)
+                .WithMany(o => o.Orders)
+                .HasForeignKey("UserId")
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder
+                .Entity<OrderModel>()
+                .HasOne(m => m.Machine)
+                .WithMany()
+                .HasForeignKey("MachineId")
+                .OnDelete(DeleteBehavior.NoAction);
+    
+        }
     }
+    
 
 }

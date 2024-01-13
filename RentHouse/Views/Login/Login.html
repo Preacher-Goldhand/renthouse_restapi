@@ -92,6 +92,7 @@
         XHR.addEventListener("load", (event) => {
         alert(event.target.responseText);
         document.cookie = `${"token"}=${event.target.responseText}`;
+        window.location.href = "/Order/GetOrderPage";
         //; SameSite=None; Secure
         });
 

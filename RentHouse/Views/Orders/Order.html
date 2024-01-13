@@ -212,7 +212,7 @@
     var hidden = ["user", "machine"];
 
     async function get() {
-        const response = await fetch("/Order/AllOrders");
+        const response = await fetch("/Order/MyOrders");
         const jsn = await response.json();
         console.log(jsn);
         transform(jsn);

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using RentHouse.Data;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +18,7 @@ public interface IOrderService
 public class OrderService : IOrderService
 {
     private readonly ApplicationDbContext _dbContext;
-    
+
     public OrderService(ApplicationDbContext dbContext)
     {
         _dbContext = dbContext;
@@ -25,10 +26,6 @@ public class OrderService : IOrderService
 
     public OrderModel CreateOrder(OrderModel orderModel)
     {
-
-        // var machine = _dbContext.Machines
-        //         .FirstOrDefault(b => b.Id == machineId);
-
         var newOrder = new OrderModel
         {
             UserId = orderModel.UserId,
@@ -37,12 +34,11 @@ public class OrderService : IOrderService
             EndDate = orderModel.EndDate,
             TotalPrice = orderModel.TotalPrice,
             TotalTime = orderModel.TotalTime
-
         };
-  
+
         _dbContext.Orders.Add(newOrder);
         _dbContext.SaveChanges();
-            
+
         return newOrder;
     }
 
@@ -50,27 +46,40 @@ public class OrderService : IOrderService
     {
         var orderRemoved = _dbContext.Orders.FirstOrDefault(m => m.Id == orderId);
 
-        if(orderRemoved != null){
+        if (orderRemoved != null)
+        {
             _dbContext.Orders.Remove(orderRemoved);
             _dbContext.SaveChanges();
         }
     }
 
-   public IList<OrderModel> GetOrdersFromUser(ClaimsPrincipal user)
+    public IList<OrderModel> GetOrdersFromUser(ClaimsPrincipal user)
     {
-        if (!int.TryParse(user.FindFirst(ClaimTypes.NameIdentifier).Value, out int userId))return new List<OrderModel>();
+        if (!int.TryParse(user.FindFirst(ClaimTypes.NameIdentifier).Value, out int userId))
+            return new List<OrderModel>();
 
-        return _dbContext.Orders.Where(o => o.User.Id == userId).ToList();
+        return _dbContext.Orders
+            .Include(o => o.User)
+            .Include(o => o.Machine)
+            .Where(o => o.User.Id == userId)
+            .ToList();
     }
 
     public IList<OrderModel> GetOrders()
     {
-        return _dbContext.Orders.Where(o => o.Id >0).ToList();
+        return _dbContext.Orders
+            .Include(o => o.User)
+            .Include(o => o.Machine)
+            .Where(o => o.Id > 0)
+            .ToList();
     }
-    
+
     public OrderModel GetOrderModel(int id)
     {
-        var order = _dbContext.Orders.FirstOrDefault(m => m.Id == id);
+        var order = _dbContext.Orders
+            .Include(o => o.User)
+            .Include(o => o.Machine)
+            .FirstOrDefault(m => m.Id == id);
 
         return order;
     }
