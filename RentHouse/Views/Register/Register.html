@@ -1,0 +1,152 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>Rejstracja w Januszex-Express </title>
+    <style>
+
+        .center {
+            /* display: flex; */
+            float: left;
+            /* width: 69%; */
+            /* height: 600px; */
+            background-color: #fbefbf;
+            padding-left: 20px;
+            padding-right: 20px;
+            border-radius: 20px;
+        }
+
+        body {
+            background-color: #ffffe8;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+
+        }
+
+        .navcontainer {
+            cursor: pointer;
+            /* width: 250px; */
+            display: flex;
+            /* height: 250px; */
+            align-items: end;
+        }
+
+        .loginbutton{
+            width: 140px;
+            margin: 10px;
+            color: #676666;
+            font-weight: bolder;
+            font-size: larger;
+            border: 3px solid #676666;
+            border-radius: 4px;
+            background: #fffbdae8;
+        }
+        .rest{
+            display: flex;
+            justify-content: center; 
+        }
+        .loginform{
+            display: flex;
+            flex-direction: column;
+            padding: 60px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="rest">
+        <div class="center">
+            <form class="loginform" id="form" > 
+                <label for="login">Login</label>                
+                <input name="email" type="text"></input> 
+                <label for="pass">Haslo</label>
+                <input name="userPasswordHashed" type="password"></input>
+
+                <label for="FirstName">Imię</label>                
+                <input name="FirstName" type="text"></input> 
+
+                <label for="LastName">Nazwisko</label>                
+                <input name="LastName" type="text"></input> 
+
+                <label for="city">Miasto</label>                
+                <input name="city" type="text"></input> 
+
+                <label for="street">Ulica</label>                
+                <input name="street" type="text"></input>
+
+                <label for="StreetNumber">Numer domu\mieszkania</label>                
+                <input name="StreetNumber" type="text"></input>  
+
+                <label for="PostalCode">Kod pocztowy</label>                
+                <input name="PostalCode" type="text"></input> 
+                <input name="sumbmit" id="submit" type="submit" value="Zarejestruj"></input>
+            </form>
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript">
+    //     public string FirstName {get; set;}
+    // public string LastName {get; set;}
+    // public string Email {get; set;}
+    // public string UserPasswordHashed {get; set;}
+    // public string PostalCode {get; set;}
+    // public string Street {get; set;}
+    // public string StreetNumber {get; set;}
+    // public string City {get; set;} 
+    
+    const submit = document.getElementById("submit");
+    const form = document.getElementById("form");
+
+    window.addEventListener("load", () => {
+
+    function sendData() {
+        const XHR = new XMLHttpRequest();
+
+        // Bind the FormData object and the form element
+        const FD = new FormData(form);
+
+        console.log(FD);
+
+        var object = {};
+        FD.forEach(function(value, key){
+            object[key] = value;
+        });
+        var json = JSON.stringify(object);
+        console.log(json);
+
+        // Define what happens on successful data submission
+        XHR.addEventListener("load", (event) => {
+        alert(event.target.responseText);
+        document.cookie = `${"token"}=${event.target.responseText}`;
+        window.location.href = "/Order/GetOrderPage";
+        //; SameSite=None; Secure
+        });
+
+        // Define what happens in case of error
+        XHR.addEventListener("error", (event) => {
+        alert("Oops! Something went wrong.");
+        });
+
+        // Set up our request
+        XHR.open("POST", "/User/Register");
+        XHR.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+        // The data sent is what the user provided in the form
+        XHR.send(json);
+    }
+
+    // Get the form element 
+
+    // Add 'submit' event handler
+    form.addEventListener("submit", (event) => {
+        console.log("sumbmit");
+        event.preventDefault();
+        sendData();
+    });
+    });
+
+</script>
+
+</html>

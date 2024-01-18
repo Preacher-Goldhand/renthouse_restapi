@@ -16,6 +16,12 @@ public class UserController : Controller
         var htmlContent = System.IO.File.ReadAllText("./Views/Login/Login.html");
         return Content(htmlContent, "text/html");
     }
+    [HttpGet]
+    public IActionResult GetRegisterPage()
+    {
+        var htmlContent = System.IO.File.ReadAllText("./Views/Register/Register.html");
+        return Content(htmlContent, "text/html");
+    }
 
     [HttpPost]
     public ActionResult Register([FromBody] UserModel userModel)
