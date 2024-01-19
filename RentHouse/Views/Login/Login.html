@@ -71,6 +71,32 @@
     const submit = document.getElementById("submit");
     const form = document.getElementById("form");
 
+    async function order() {
+        //wziac token
+        const cookieValue = document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("token="))
+        ?.split("=")[1];
+
+        //puscic na url
+        const response = await fetch("/Order/MyOrders", {
+            headers: {Authorization: `Bearer ${cookieValue}`}
+            });
+        const jsn = await response.json();
+        if(response.status==404){
+           
+            return;
+        }
+        else{
+            let container = document.getElementById("section2");
+            container.style.visibility="hidden";
+            console.log(jsn);
+            transform(jsn);
+            return jsn;
+        }
+        
+    }
+
     window.addEventListener("load", () => {
 
     function sendData() {
@@ -90,8 +116,8 @@
 
         // Define what happens on successful data submission
         XHR.addEventListener("load", (event) => {
-        alert(event.target.responseText);
-        document.cookie = `${"token"}=${event.target.responseText}`;
+        //alert(event.target.responseText);
+        document.cookie = `${"token"}=${event.target.responseText};path=/`;
         window.location.href = "/Order/GetOrderPage";
         //; SameSite=None; Secure
         });

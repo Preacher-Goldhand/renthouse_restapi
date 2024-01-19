@@ -227,7 +227,6 @@
     </div>
     <div class="rest">
         <div class="left" >
-            <!-- <button>navigation back</button> -->
            
 
                 <div class="navcontainer" onclick="navBack();">
@@ -244,34 +243,31 @@
             <section class="description">
                 <h3 id="section1"></h3>
             </section>
-            <section class="description" id="section2">"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
-                esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa
-                qui officia deserunt mollit anim id est laborum."</section>
+            <section class="description" id="section2">
+
+            </section>
             <section class="order-form">
+                <form id="orderform">
+                    <div class="rendered-form">
+                        <input type="number" class="form-control" name="UserId" access="false" id="UserId" style="display: none;">
+                        <input type="number" class="form-control" name="MachineId" access="false" id="MachineId" style="display: none;">
 
-                <div class="rendered-form">
-                    <div class="">
-                        <h1 access="false" id="control-5103415">Zamów teraz!</h1></div>
-                    <div class="formbuilder-date form-group field-date-1705603856616">
-                        <label for="date-1705603856616" class="formbuilder-date-label">Data podstawenia</label>
-                        <input type="date" class="form-control" name="date-1705603856616" access="false" id="date-1705603856616">
+                        <div class="">
+                            <h1 access="false" id="control-5103415">Zamów teraz!</h1></div>
+                        <div class="formbuilder-date form-group field-date-1705603856616">
+                            <label for="date-1705603856616" class="formbuilder-date-label">Data podstawenia</label>
+                            <input type="datetime-local" class="form-control" name="StartDate" access="false" id="date-1705603856616">
+                        </div>
+                        <div class="formbuilder-date form-group field-date-1705603848113">
+                            <label for="date-1705603848113" class="formbuilder-date-label">Data zwrotu</label>
+                            <input type="datetime-local" class="form-control" name="EndDate" access="false" id="date-1705603848113">
+                        </div>
+                        
+                        <div class="formbuilder-button form-group field-button-1705604038351">
+                            <button type="button" class="btn-success btn" name="button-1705604038351" access="false" style="success" id="button-1705604038351" onclick="order();">Zamawiam</button>
+                        </div>
                     </div>
-                    <div class="formbuilder-date form-group field-date-1705603848113">
-                        <label for="date-1705603848113" class="formbuilder-date-label">Data zwrotu</label>
-                        <input type="date" class="form-control" name="date-1705603848113" access="false" id="date-1705603848113">
-                    </div>
-                    <div class="formbuilder-text form-group field-text-1705603852207">
-                        <label for="text-1705603852207" class="formbuilder-text-label">Uwagi</label>
-                        <input type="text" class="form-control" name="text-1705603852207" access="false" maxlength="255" id="text-1705603852207">
-                    </div>
-                    <input type="hidden" name="hidden-1705604032564" access="false" id="hidden-1705604032564">
-                    <div class="formbuilder-button form-group field-button-1705604038351">
-                        <button type="button" class="btn-success btn" name="button-1705604038351" access="false" style="success" id="button-1705604038351">Zamawiam</button>
-                    </div>
-                </div>
-
+                </form>
             </section>
         </div>
     
@@ -323,7 +319,19 @@
         };
         xhttp.open("GET", asdf, true);
         
-        xhttp.send();       
+        xhttp.send();  
+        document.getElementById("MachineId").value=id; 
+        //wziac token
+        const cookieValue = document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("token="))
+        ?.split("=")[1];
+
+        var payload = JSON.parse(window.atob(cookieValue.split('.')[1])); 
+        var userId = payload["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"];
+        document.getElementById("UserId").value=userId; 
+        console.log(userId);
+
         id+=1; 
     }
 
@@ -356,9 +364,61 @@
         xhttp.send();
         
         console.log("back");
+                document.getElementById("MachineId").value=id; 
+        //wziac token
+        const cookieValue = document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("token="))
+        ?.split("=")[1];
+
+        var payload = JSON.parse(window.atob(cookieValue.split('.')[1])); 
+        var userId = payload["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"];
+        document.getElementById("UserId").value=userId;    
+        console.log(userId);
+
         id=id-1;
     }
     navBack(); navForward();
+
+    async function order() {
+        //dowiazac formdata
+        const FD = new FormData(document.getElementById("orderform"));
+
+        console.log(FD);
+
+        var object = {};
+        FD.forEach(function(value, key){
+            object[key] = value;
+        });
+        console.log(object);
+        object["MachineId"]=parseInt(object["MachineId"]);
+        object["UserId"]=parseInt(object["UserId"]);
+        //wziac token
+        const cookieValue = document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("token="))
+        ?.split("=")[1];
+
+        //puscic na url
+        const response = await fetch("/Order/CreateOrder", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${cookieValue}`
+            },
+            body: JSON.stringify(object)
+            });
+
+        const jsn = await response.json();
+        if(response.status==404){
+           
+            return;
+        }
+        else{
+            window.location = '/Order/GetOrderPage';
+        }
+        
+    }
 </script>
 
 </html>
