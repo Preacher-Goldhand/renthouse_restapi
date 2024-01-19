@@ -220,9 +220,14 @@
     
     <div class="header">
         <h1>Super maszyny w Januszex-Express!</h1>
-
+        <div>
+            <p >Zalogowany:</p>
+             <p id="uname">-</p>
+        </div>
         <div class="buttons"><button class="btn" onclick="{window.location = '/User/GetLoginPage'}" >Zaloguj</button>
-            <button class="btn" onclick="{window.location = '/User/GetRegisterPage'}">Zarejestruj</button></div>
+            <button class="btn" onclick="{window.location = '/User/GetRegisterPage'}">Zarejestruj</button>
+            
+        </div>
 
     </div>
     <div class="rest">
@@ -328,9 +333,12 @@
         ?.split("=")[1];
 
         var payload = JSON.parse(window.atob(cookieValue.split('.')[1])); 
+        console.log(payload);
         var userId = payload["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"];
         document.getElementById("UserId").value=userId; 
-        console.log(userId);
+        document.getElementById("uname").innerText=payload["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"]; 
+
+        console.log(payload["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"]);
 
         id+=1; 
     }
